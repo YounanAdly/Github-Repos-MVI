@@ -61,6 +61,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     is AuthState.Error -> errorMessage(it.errorMessage)
                     is AuthState.Idle -> Log.d(TAG, "state: -> Idle ")
                     is AuthState.Loading -> handleLoadingState()
+                    else -> {
+                        Log.d(TAG, "observeAuthState: ")}
                 }
             }
         }

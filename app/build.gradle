@@ -61,6 +61,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-auth'
+
+    // Google SDK
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
 
     //Lotti Animation
@@ -92,6 +94,8 @@ dependencies {
 
     //Progress Dialog
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
+
+
 
 
 

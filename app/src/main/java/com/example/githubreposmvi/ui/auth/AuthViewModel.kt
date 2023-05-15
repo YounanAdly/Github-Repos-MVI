@@ -1,14 +1,22 @@
 package com.example.githubreposmvi.ui.auth
 
+import android.app.Activity
+import android.content.Intent
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubreposmvi.data.auth.AuthIntent
 import com.example.githubreposmvi.data.auth.AuthState
 import com.example.githubreposmvi.shared.Validation
+import com.example.githubreposmvi.ui.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,6 +41,7 @@ class AuthViewModel() : ViewModel() {
                 when (it) {
                     is AuthIntent.SignIn -> signIn(it.email, it.password)
                     is AuthIntent.SignUp -> signUp(it.email, it.password, it.confirmPassword)
+                    is AuthIntent.SignInGoogle -> signInGoogle()
                 }
             }
         }
@@ -84,6 +93,27 @@ class AuthViewModel() : ViewModel() {
         }
     }
 
+    private fun signInGoogle() {
+        _authState.value = AuthState.Loading
+    }
+
+    fun handleSignInResult(task: Task<GoogleSignInAccount>) {
+        if (task.isSuccessful) {
+            val account: GoogleSignInAccount? = task.result
+            val email = account?.email
+            val name = account?.displayName
+            val token = account?.idToken
+            val credential = GoogleAuthProvider.getCredential(token, null)
+
+            if (email != null && name != null) {
+                _authState.value = AuthState.SuccessGoogle(account, credential)
+            } else {
+                _authState.value = AuthState.Error("Failed to retrieve account information")
+            }
+        } else {
+            _authState.value = AuthState.Error(task.exception.toString())
+        }
+    }
 
     // Reset State After 3 Seconds
     private fun resetAuthStateAfterDelay() {
