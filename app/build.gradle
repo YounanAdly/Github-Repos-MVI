@@ -95,6 +95,8 @@ dependencies {
     //Progress Dialog
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
 
+    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
+    implementation 'com.facebook.android:facebook-login:16.0.1'
 
 
 

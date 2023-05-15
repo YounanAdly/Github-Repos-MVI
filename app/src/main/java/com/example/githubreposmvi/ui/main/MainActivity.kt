@@ -22,8 +22,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.githubreposmvi.BR
 import com.example.githubreposmvi.R
 import com.example.githubreposmvi.data.model.Repository
-import com.example.githubreposmvi.data.repos.RepoIntent
-import com.example.githubreposmvi.data.repos.RepoState
+import com.example.githubreposmvi.shared.repos.RepoIntent
+import com.example.githubreposmvi.shared.repos.RepoState
 import com.example.githubreposmvi.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 

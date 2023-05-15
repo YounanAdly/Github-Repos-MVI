@@ -2,8 +2,8 @@ package com.example.githubreposmvi.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.githubreposmvi.data.repos.RepoIntent
-import com.example.githubreposmvi.data.repos.RepoState
+import com.example.githubreposmvi.shared.repos.RepoIntent
+import com.example.githubreposmvi.shared.repos.RepoState
 import com.example.githubreposmvi.domin.GithubRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

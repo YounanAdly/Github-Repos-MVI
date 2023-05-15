@@ -10,8 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.githubreposmvi.R
-import com.example.githubreposmvi.data.auth.AuthIntent
-import com.example.githubreposmvi.data.auth.AuthState
+import com.example.githubreposmvi.shared.auth.AuthIntent
+import com.example.githubreposmvi.shared.auth.AuthState
 import com.example.githubreposmvi.databinding.ActivityRegisterBinding
 import com.example.githubreposmvi.ui.main.MainActivity
 import kotlinx.coroutines.launch
@@ -57,22 +57,24 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         lifecycleScope.launch {
             viewModel.authState.collect {
                 when (it) {
-                    is AuthState.Authenticated -> successMessage()
+                    is AuthState.Authenticated -> successMessage(it.user.email.toString())
                     is AuthState.Error -> errorMessage(it.errorMessage)
                     is AuthState.Idle -> Log.d(TAG, "state: -> Idle ")
                     is AuthState.Loading -> handleLoadingState()
                     else -> {
-                        Log.d(TAG, "observeAuthState: ")}
+                        Log.d(TAG, "observeAuthState: ")
+                    }
                 }
             }
         }
     }
 
-    private fun successMessage() {
+    private fun successMessage(user: String) {
         SweetAlertDialog(
             this,
             SweetAlertDialog.SUCCESS_TYPE
         ).setTitleText("Account Created Successfully")
+            .setContentText("Welcome $user")
             .setConfirmButton("Ok") {
                 it.dismissWithAnimation()
                 startActivity(Intent(this, MainActivity::class.java))
@@ -82,9 +84,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun errorMessage(message: String) {
+        resetUI()
         SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE).setTitleText("Error")
             .setContentText(message).show()
     }
+
     private fun handleLoadingState() {
         // Disable user interaction and show a loading indicator
         binding.root.isEnabled = false
@@ -101,6 +105,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         binding.progressBar.visibility = View.GONE
         binding.overlayView.visibility = View.GONE
     }
+
     companion object {
         private const val TAG = "RegisterActivity"
     }

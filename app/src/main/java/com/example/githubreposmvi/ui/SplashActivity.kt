@@ -10,6 +10,7 @@ import com.example.githubreposmvi.R
 import com.example.githubreposmvi.databinding.ActivitySplashBinding
 import com.example.githubreposmvi.ui.auth.LoginActivity
 import com.example.githubreposmvi.ui.main.MainActivity
+import com.facebook.FacebookSdk
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashActivity : AppCompatActivity() {
